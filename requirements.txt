@@ -1,0 +1,5 @@
+Django
+South
+django-autoslug
+django-piston
+docutils
