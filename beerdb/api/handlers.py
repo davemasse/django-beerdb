@@ -7,7 +7,7 @@ from beerdb.models import Beer, Brewer, URL, URLSite
 
 class BeerHandler(BaseHandler):
   allowed_methods = ('GET',)
-  fields = ('name', 'slug', ('brewer', ('name', 'slug')), 'url')
+  fields = ('name', ('brewer', ('name')), 'url')
   model = Beer
   
   def read(self, request, brewer_slug=None, beer_slug=None):
@@ -21,7 +21,7 @@ class BeerHandler(BaseHandler):
 
 class BrewerHandler(BaseHandler):
   allowed_methods = ('GET',)
-  fields = ('name', 'slug', 'beer')
+  fields = ('name', 'beer')
   model = Brewer
   
   def read(self, request, brewer_slug=None):
@@ -31,6 +31,7 @@ class BrewerHandler(BaseHandler):
       except Brewer.DoesNotExist:
         return Brewer.objects.none()
     else:
+      self.fields = ('name')
       return Brewer.objects.all()[:10]
   
   @classmethod
