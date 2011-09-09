@@ -9,12 +9,12 @@ brewer_handler = Resource(BrewerHandler)
 
 urlpatterns = patterns('',
   # Beers
-  (r'^beer/(?P<beer_slug>[^/]+?)(?:\.(?P<emitter_format>[a-z]+))?$', beer_handler, {}, 'beer'),
-  (r'^beer(?:/|\.(?P<emitter_format>[a-z]+))?$', beer_handler, {}, 'beers'),
+  (r'^(?P<brewer_slug>[^/]+)/(?P<beer_slug>[^/]+)/$', beer_handler, {}, 'beerdb_api_beer'),
+  (r'^beer/$', beer_handler, {}, 'beerdb_api_beers'),
   
   # Brewers
-  (r'^brewer/(?P<brewer_slug>[^/]+?)(?:\.(?P<emitter_format>[a-z]+))?$', brewer_handler, {}, 'brewer'),
-  (r'^brewer(?:/|\.(?P<emitter_format>[a-z]+))?$', brewer_handler, {}, 'brewers'),
+  (r'^(?P<brewer_slug>[^/]+)/$', brewer_handler, {}, 'beerdb_api_brewer'),
+  (r'^brewer/$', brewer_handler, {}, 'beerdb_api_brewers'),
   
   # Documentation
   (r'^doc/$', 'piston.doc.documentation_view'),

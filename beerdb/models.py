@@ -56,6 +56,9 @@ class Brewer(models.Model):
   
   def get_absolute_url(self):
     return reverse('view_brewer', args=[self.slug])
+  
+  def get_api_url(self):
+    return reverse('beerdb_api_brewer', args=[self.slug])
 
 class Beer(models.Model):
   """
@@ -63,7 +66,7 @@ class Beer(models.Model):
   """
   brewer = models.ForeignKey(Brewer, help_text='The brewer for this beer.')
   user = models.ManyToManyField(User, through='UserBeer', help_text='User ratings for this beer.')
-  url = models.ForeignKey(URL, blank=True, help_text='External URLs for this beer.')
+  url = models.ManyToManyField(URL, help_text='External URLs for this beer.')
   slug = AutoSlugField(populate_from='name', unique_with='brewer', help_text='The unique slug for the given beer.')
   name = models.CharField(max_length=250, help_text='The name of the beer.')
   
@@ -80,6 +83,9 @@ class Beer(models.Model):
   
   def get_absolute_url(self):
     return reverse('view_beer', args=[self.brewer.slug, self.slug])
+  
+  def get_api_url(self):
+    return reverse('beerdb_api_beer', args=[self.brewer.slug, self.slug])
 
 class UserBeer(models.Model):
   user = models.ForeignKey(User)

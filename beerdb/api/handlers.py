@@ -10,27 +10,19 @@ class BeerHandler(BaseHandler):
   fields = ('name', 'slug', ('brewer', ('name', 'slug')), 'url')
   model = Beer
   
-  def read(self, request, beer_slug=None):
-    if beer_slug:
+  def read(self, request, brewer_slug=None, beer_slug=None):
+    if brewer_slug and beer_slug:
       try:
-        return Beer.objects.get(slug=beer_slug)
+        return Beer.objects.get(brewer__slug=brewer_slug, slug=beer_slug)
       except Beer.DoesNotExist:
         return Beer.objects.none()
     else:
       return Beer.objects.all()[:10]
-  
-  @classmethod
-  def resource_uri(self):
-    return ('beer', ['slug'])
 
 class BrewerHandler(BaseHandler):
   allowed_methods = ('GET',)
   fields = ('name', 'slug', 'beer')
   model = Brewer
-  
-  @classmethod
-  def resource_uri(self):
-    return ('brewer', ['slug'])
   
   def read(self, request, brewer_slug=None):
     if brewer_slug:
