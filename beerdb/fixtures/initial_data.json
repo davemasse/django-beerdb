@@ -1,0 +1,10 @@
+[
+  {
+    "pk": 1, 
+    "model": "beerdb.urlsite", 
+    "fields": {
+      "domain": "beeradvocate.com", 
+      "name": "Beer Advocate"
+    }
+  }
+]
