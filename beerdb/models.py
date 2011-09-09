@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class Rating(models.Model):
   slug = AutoSlugField(populate_from='name', unique=True, default='')
-  name = models.CharField(max_length=100)
+  name = models.CharField(max_length=100, unique=True)
   order = models.PositiveIntegerField(unique=True)
   
   class Meta:
@@ -52,7 +52,7 @@ class Brewer(models.Model):
     verbose_name_plural = _('brewers')
   
   def __unicode__(self):
-    return self.name
+    return unicode(self.name)
   
   def get_absolute_url(self):
     return reverse('view_brewer', args=[self.slug])
@@ -76,7 +76,7 @@ class Beer(models.Model):
     verbose_name_plural = _('beers')
   
   def __unicode__(self):
-    return self.name
+    return '%s by %s' % (unicode(self.name), unicode(self.brewer.name),)
   
   def get_user_rating(self, username):
     return UserBeer.objects.get(beer=self, user__username=username).rating
@@ -96,7 +96,7 @@ class UserBeer(models.Model):
   date_modified = models.DateTimeField(auto_now=True, help_text='The last modified date for this rating and/or note.')
   
   class Meta:
-    ordering = ('-date_modified', '-date_added', '-id',)
+    ordering = ('user', '-date_modified', '-date_added', '-id',)
     verbose_name = _('user beer rating')
     verbose_name_plural = _('user beer ratings')
   

@@ -3,11 +3,11 @@ from piston.handler import BaseHandler
 
 from django.core.urlresolvers import reverse
 
-from beerdb.models import Beer, Brewer, URL, URLSite
+from beerdb.models import Beer, Brewer, Rating, URL, URLSite
 
 class BeerHandler(BaseHandler):
   allowed_methods = ('GET',)
-  fields = ('name', ('brewer', ('name')), 'url')
+  fields = ('name', 'url', ('brewer', ('name',)), ('userbeer_set', ('note', 'date_added', ('user', ('username',)), ('rating', ('name',)))))
   model = Beer
   
   def read(self, request, brewer_slug=None, beer_slug=None):
@@ -17,7 +17,12 @@ class BeerHandler(BaseHandler):
       except Beer.DoesNotExist:
         return Beer.objects.none()
     else:
-      return Beer.objects.all()[:10]
+      beers = Beer.objects.all()[:10]
+      
+      for beer in beers:
+        beer.ratings = beer.userbeer_set.all()
+        beer.name = 'test'
+      return beers
 
 class BrewerHandler(BaseHandler):
   allowed_methods = ('GET',)
