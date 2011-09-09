@@ -3,7 +3,7 @@ from piston.handler import BaseHandler
 
 from django.core.urlresolvers import reverse
 
-from beer_db.models import Beer, Brewer, URL, URLSite
+from beerdb.models import Beer, Brewer, URL, URLSite
 
 class BeerHandler(BaseHandler):
   allowed_methods = ('GET',)

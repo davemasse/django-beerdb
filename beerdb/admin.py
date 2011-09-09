@@ -1,4 +1,4 @@
-from beer_db.models import *
+from beerdb.models import *
 
 admin.site.register(Brewer)
 admin.site.register(Beer)
