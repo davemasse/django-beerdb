@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>{% block title %}{% endblock %}</title>
+  {% block css %}
+    <link href="{{ STATIC_URL }}css/main.scss" type="text/x-scss" rel="stylesheet">
+  {% endblock %}
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js" type="text/javascript"></script>
+  {% block js %}
+    
+  {% endblock %}
+  {% block extrahead %}{% endblock %}
+</head>
+<body>
+  <div id="content">{% block content %}{% endblock %}</div>
+</body>
+</html>

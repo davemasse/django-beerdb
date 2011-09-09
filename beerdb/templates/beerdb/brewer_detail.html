@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load url from future %}
+
+{% block title %}{{ brewer.name }}{% endblock %}
+
+{% block content %}
+  <h1>{{ brewer.name }}</h1>
+
+  {% if brewer.beer_set.all.count %}
+    <ul>
+      {% for beer in brewer.beer_set.all %}
+        <li><a href="{% url 'beerdb_beer_detail' brewer.slug beer.slug %}">{{ beer.name }}</a></li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% load url from future %}
+
+{% block title %}{{ beer.name }}{% endblock %}
+
+{% block content %}
+  <h1>{{ beer.name }}</h1>
+  <h2><a href="{% url 'beerdb_brewer_detail' beer.brewer.slug %}">{{ beer.brewer.name }}</a></h2>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Brewer List{% endblock %}
+
+{% block content %}
+  <ul>
+    {% for brewer in object_list %}
+      <li>{{ brewer.name }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

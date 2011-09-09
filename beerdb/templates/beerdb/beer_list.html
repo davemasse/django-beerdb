@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load url from future %}
+
+{% block title %}Beer List{% endblock %}
+
+{% block content %}
+  <ul>
+    {% for beer in object_list %}
+      <li><a href="{% url 'beerdb_beer_detail' beer.brewer.slug beer.slug %}">{{ beer.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
