@@ -4,9 +4,6 @@ from django.views.generic import DetailView, ListView
 from beerdb.models import Beer, Brewer
 
 urlpatterns = patterns('',
-  # API
-  (r'^api/', include('beerdb.api.urls')),
-  
   # Beers
   (r'^$', ListView.as_view(model=Beer), {'emitter_format': 'json'}, 'beerdb_beer_list'),
   (r'^(?P<brewer__slug>[^/]+)/(?P<slug>[^/]+)/$', DetailView.as_view(model=Beer), {'emitter_format': 'json'}, 'beerdb_beer_detail'),
