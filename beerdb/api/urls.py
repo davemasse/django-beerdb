@@ -2,10 +2,11 @@ from piston.resource import Resource
 
 from django.conf.urls.defaults import *
 
-from handlers import BeerHandler, BrewerHandler
+from handlers import BeerHandler, BrewerHandler, UserHandler
 
 beer_handler = Resource(BeerHandler)
 brewer_handler = Resource(BrewerHandler)
+user_handler = Resource(UserHandler)
 
 urlpatterns = patterns('',
   # Documentation
@@ -16,6 +17,9 @@ urlpatterns = patterns('',
   
   # Listing of all beers
   (r'^beers/$', beer_handler, {}, 'beerdb_api_beers'),
+  
+  # User ratings
+  (r'^user/(?P<username>[^/]+)/$', user_handler, {}, 'beerdb_api_user'),
   
   # Specific brewer listing
   (r'^(?P<brewer_slug>[^/]+)/$', brewer_handler, {}, 'beerdb_api_brewer'),

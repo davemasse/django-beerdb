@@ -1,6 +1,7 @@
 from piston.emitters import Emitter, JSONEmitter
 from piston.handler import BaseHandler
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
 from beerdb.models import Beer, Brewer, Rating, URL, URLSite
@@ -50,3 +51,19 @@ class URLSiteHandler(BaseHandler):
 class URLHandler(BaseHandler):
   allowed_methods = ()
   model = URL
+
+class UserHandler(BaseHandler):
+  allowed_methods = ('GET',)
+  fields = ('username', ('userbeer_set', ('note', 'date_added', ('beer', ('url', 'name', ('brewer', ('name',)))), ('rating', ('name',)))))
+  model = User
+  
+  def read(self, request, username=None):
+    if username:
+      try:
+        user = User.objects.exclude(is_staff=True).get(username=username)
+      except User.DoesNotExist:
+        user = User.objects.none()
+    else:
+      user = User.objects.none()
+    
+    return user
