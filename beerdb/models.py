@@ -40,7 +40,7 @@ class URL(models.Model):
     verbose_name_plural = _('URLs')
   
   def __unicode__(self):
-    return self.site.domain + self.url
+    return 'http://%s%s' % (self.site.domain, self.url,)
 
 class Brewer(models.Model):
   slug = AutoSlugField(populate_from='name', unique=True)
