@@ -33,32 +33,44 @@ class Command(BaseCommand):
     except Brewer.DoesNotExist:
       brewer = Brewer.objects.create(name=brewer_name)
     
+    # Iterate over all beer links
     for tag in self.p('a[href^="/beer/profile/"]'):
+      # Look for matching profile link
       if re.search('^/beer/profile/\d+/\d+$', self.p(tag).attr('href')):
         s = re.search('^/beer/profile/\d+/(\d+)$', self.p(tag).attr('href'))
         
+        # Select beer ID value from link
         beer_id = s.group(1)
+        
+        # Create the beer record
         self.get_beer(brewer, beer_id, tag)
   
   def get_beer(self, brewer, beer_id, tag):
     try:
+      # Get beer name
       beer_name = self.p(tag).find('b').text()
       
+      # Ignore empty names
       if len(beer_name) == 0:
         raise Exception('Name failure')
     except:
       return
     
     try:
+      # Find an existing matching record
       beer = Beer.objects.get(name=beer_name, brewer=brewer)
     except Beer.DoesNotExist:
+      # Create a new URL record for the beer
       url = URL.objects.create(url=self.p(tag).attr('href'), site=self.url_site)
       
+      # Create the beer record
       beer = Beer.objects.create(brewer=brewer, name=beer_name)
+      # Connect the URL record
       beer.url.add(url)
       beer.save()
       
       try:
+        # Display the beer name for debugging purposes
         print beer_name.encode('ascii', 'ignore')
       except:
         print "[!!] Can't display beer name."
@@ -73,6 +85,7 @@ class Command(BaseCommand):
     self.url_site = URLSite.objects.get(domain=DOMAIN)
     
     ids = []
+    # Split up brewer ID string
     for id in brewer_ids.split(','):
       if '-' in id:
         id_range = id.split('-')
@@ -83,6 +96,7 @@ class Command(BaseCommand):
       else:
         ids.append(int(id))
     
+    # Iterate through requested brewer IDs
     for id in ids:
       self.get_brewer(id)
     
