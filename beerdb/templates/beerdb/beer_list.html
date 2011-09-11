@@ -6,7 +6,7 @@
 
 {% block content %}
   <ul>
-    {% for beer in object_list %}
+    {% for beer in beers %}
       <li><a href="{% url 'beerdb_beer_detail' beer.brewer.slug beer.slug %}">{{ beer.name }}</a></li>
     {% endfor %}
   </ul>
