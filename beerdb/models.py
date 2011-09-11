@@ -8,9 +8,9 @@ from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 
 class Rating(models.Model):
-  slug = AutoSlugField(populate_from='name', unique=True, default='')
-  name = models.CharField(max_length=100, unique=True)
-  order = models.PositiveIntegerField(unique=True)
+  slug = AutoSlugField(populate_from='name', unique=True, default='', help_text=_('Slug value for the rating.'))
+  name = models.CharField(max_length=100, unique=True, help_text=_('Name of the rating for display purposes.'))
+  order = models.PositiveIntegerField(unique=True, help_text=_('The order in which ratings are displayed.'))
   
   class Meta:
     ordering = ('order',)
@@ -21,8 +21,8 @@ class Rating(models.Model):
     return self.name
 
 class URLSite(models.Model):
-  name = models.CharField(max_length=250)
-  domain = models.CharField(max_length=250)
+  name = models.CharField(max_length=250, help_text=_('The display name for the domain.'))
+  domain = models.CharField(max_length=250, help_text=_('The domain of the related site.'))
   
   class Meta:
     verbose_name = _('URL site')
@@ -32,8 +32,8 @@ class URLSite(models.Model):
     return self.name + ' (' + self.domain + ')'
 
 class URL(models.Model):
-  url = models.CharField(max_length=500)
-  site = models.ForeignKey(URLSite)
+  url = models.CharField(max_length=500, help_text=_('The URI path on the related site.'))
+  site = models.ForeignKey(URLSite, help_text=_('The related site for this URL/URI.'))
   
   class Meta:
     verbose_name = _('URL')
@@ -43,8 +43,8 @@ class URL(models.Model):
     return 'http://%s%s' % (self.site.domain, self.url,)
 
 class Brewer(models.Model):
-  slug = AutoSlugField(populate_from='name', unique=True)
-  name = models.CharField(max_length=250)
+  slug = AutoSlugField(populate_from='name', unique=True, help_text=_('Slug value for brewer based on the name.'))
+  name = models.CharField(max_length=250, help_text=_('Name of the brewer.'))
   
   class Meta:
     ordering = ('name',)
@@ -64,11 +64,11 @@ class Beer(models.Model):
   """
   Beer storage.
   """
-  brewer = models.ForeignKey(Brewer, help_text='The brewer for this beer.')
-  user = models.ManyToManyField(User, through='UserRating', help_text='User ratings for this beer.')
-  url = models.ManyToManyField(URL, help_text='External URLs for this beer.')
-  slug = AutoSlugField(populate_from='name', unique_with='brewer', help_text='The unique slug for the given beer.')
-  name = models.CharField(max_length=250, help_text='The name of the beer.')
+  brewer = models.ForeignKey(Brewer, help_text=_('The brewer for this beer.'))
+  user = models.ManyToManyField(User, through='UserRating', help_text=_('User ratings for this beer.'))
+  url = models.ManyToManyField(URL, help_text=_('External URLs for this beer.'))
+  slug = AutoSlugField(populate_from='name', unique_with='brewer', help_text=_('The unique slug for the given beer.'))
+  name = models.CharField(max_length=250, help_text=_('The name of the beer.'))
   
   class Meta:
     ordering = ('brewer__name', 'name',)
@@ -90,10 +90,10 @@ class Beer(models.Model):
 class UserRating(models.Model):
   user = models.ForeignKey(User)
   beer = models.ForeignKey(Beer)
-  rating = models.ForeignKey(Rating, blank=True, null=True, help_text='A rating for this beer by the given user.')
-  note = models.TextField(default='', blank=True, verbose_name='Notes', help_text='Notes on this beer by the given user.')
-  date_added = models.DateTimeField(auto_now_add=True, help_text='The date on which the user rated the beer.')
-  date_modified = models.DateTimeField(auto_now=True, help_text='The last modified date for this rating and/or note.')
+  rating = models.ForeignKey(Rating, blank=True, null=True, help_text=_('A rating for this beer by the given user.'))
+  note = models.TextField(default='', blank=True, verbose_name='Notes', help_text=_('Notes on this beer by the given user.'))
+  date_added = models.DateTimeField(auto_now_add=True, help_text=_('The date on which the user rated the beer.'))
+  date_modified = models.DateTimeField(auto_now=True, help_text=_('The last modified date for this rating and/or note.'))
   
   class Meta:
     ordering = ('user', '-date_modified', '-date_added', '-id',)
