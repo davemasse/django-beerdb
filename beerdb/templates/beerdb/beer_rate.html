@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load url from future %}
+
+{% block title %}Rate {{ beer.name }}{% endblock %}
+
+{% block content %}
+  <h1>{{ beer.name }}</h1>
+  <h2>by <a href="{% url 'beerdb_brewer_detail' beer.brewer.slug %}">{{ beer.brewer.name }}</a></h2>
+  
+  <form action="" method="post">
+    {{ user_beer_form.as_p }}
+    
+    <button type="submit">Rate</button>
+  </form>
+{% endblock %}
