@@ -1,0 +1,29 @@
+[
+  {
+    "pk": 1, 
+    "model": "beerdb.rating", 
+    "fields": {
+      "order": 1, 
+      "slug": "buy", 
+      "name": "Buy"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "beerdb.rating", 
+    "fields": {
+      "order": 2, 
+      "slug": "dump", 
+      "name": "Dump"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "beerdb.rating", 
+    "fields": {
+      "order": 3, 
+      "slug": "wishlist", 
+      "name": "Wishlist"
+    }
+  }
+]
