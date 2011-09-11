@@ -43,7 +43,10 @@ class Command(BaseCommand):
   def get_beer(self, brewer, beer_id, tag):
     try:
       beer_name = self.p(tag).find('b').text()
-    except AttributeError:
+      
+      if len(beer_name) == 0:
+        raise Exception('Name failure')
+    except:
       return
     
     try:
