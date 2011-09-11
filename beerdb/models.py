@@ -102,3 +102,6 @@ class UserRating(models.Model):
   
   def __unicode__(self):
     return self.beer.name + ' rating by ' + self.user.username
+  
+  def get_absolute_url(self):
+    return reverse('beerdb_beer_rate', args=[self.beer.brewer.slug, self.beer.slug])
