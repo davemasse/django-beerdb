@@ -13,17 +13,17 @@ urlpatterns = patterns('',
   (r'^doc/$', 'piston.doc.documentation_view'),
 
   # Listing of all brewers
-  (r'^brewers/$', brewer_handler, {}, 'beerdb_api_brewers'),
+  (r'^brewers/$', brewer_handler, {'emitter_format': 'json'}, 'beerdb_api_brewers'),
   
   # Listing of all beers
-  (r'^beers/$', beer_handler, {}, 'beerdb_api_beers'),
+  (r'^beers/$', beer_handler, {'emitter_format': 'json'}, 'beerdb_api_beers'),
   
   # User ratings
-  (r'^user/(?P<username>[^/]+)/$', user_handler, {}, 'beerdb_api_user'),
+  (r'^user/(?P<username>[^/]+)/$', user_handler, {'emitter_format': 'json'}, 'beerdb_api_user'),
   
   # Specific brewer listing
-  (r'^(?P<brewer_slug>[^/]+)/$', brewer_handler, {}, 'beerdb_api_brewer'),
+  (r'^(?P<brewer_slug>[^/]+)/$', brewer_handler, {'emitter_format': 'json'}, 'beerdb_api_brewer'),
   
   # Specific beer listing
-  (r'^(?P<brewer_slug>[^/]+)/(?P<beer_slug>[^/]+)/$', beer_handler, {}, 'beerdb_api_beer'),
+  (r'^(?P<brewer_slug>[^/]+)/(?P<beer_slug>[^/]+)/$', beer_handler, {'emitter_format': 'json'}, 'beerdb_api_beer'),
 )
