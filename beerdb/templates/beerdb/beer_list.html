@@ -7,7 +7,12 @@
 {% block content %}
   <ul>
     {% for beer in beers %}
+      {% ifchanged beer.brewer.id %}
+        {% if forloop.counter > 1 %}</ul></li>{% endif %}
+        <li>{{ beer.brewer.name }}<ul>
+      {% endifchanged %}
       <li><a href="{% url 'beerdb_beer_detail' beer.brewer.slug beer.slug %}">{{ beer.name }}</a></li>
+      {% if forloop.last %}</li></ul>{% endif %}
     {% endfor %}
   </ul>
 {% endblock %}
