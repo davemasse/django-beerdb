@@ -65,7 +65,7 @@ class Beer(models.Model):
   Beer storage.
   """
   brewer = models.ForeignKey(Brewer, help_text='The brewer for this beer.')
-  user = models.ManyToManyField(User, through='UserBeer', help_text='User ratings for this beer.')
+  user = models.ManyToManyField(User, through='UserRating', help_text='User ratings for this beer.')
   url = models.ManyToManyField(URL, help_text='External URLs for this beer.')
   slug = AutoSlugField(populate_from='name', unique_with='brewer', help_text='The unique slug for the given beer.')
   name = models.CharField(max_length=250, help_text='The name of the beer.')
@@ -79,7 +79,7 @@ class Beer(models.Model):
     return '%s by %s' % (unicode(self.name), unicode(self.brewer.name),)
   
   def get_user_rating(self, username):
-    return UserBeer.objects.get(beer=self, user__username=username).rating
+    return UserRating.objects.get(beer=self, user__username=username).rating
   
   def get_absolute_url(self):
     return reverse('view_beer', args=[self.brewer.slug, self.slug])
@@ -87,7 +87,7 @@ class Beer(models.Model):
   def get_api_url(self):
     return reverse('beerdb_api_beer', args=[self.brewer.slug, self.slug])
 
-class UserBeer(models.Model):
+class UserRating(models.Model):
   user = models.ForeignKey(User)
   beer = models.ForeignKey(Beer)
   rating = models.ForeignKey(Rating, blank=True, null=True, help_text='A rating for this beer by the given user.')

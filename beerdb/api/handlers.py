@@ -8,7 +8,7 @@ from beerdb.models import Beer, Brewer, Rating, URL, URLSite
 
 class BeerHandler(BaseHandler):
   allowed_methods = ('GET',)
-  fields = ('name', 'url', ('brewer', ('name',)), ('userbeer_set', ('note', 'date_added', ('user', ('username',)), ('rating', ('name',)))))
+  fields = ('name', 'url', ('brewer', ('name',)), ('userrating_set', ('note', 'date_added', ('user', ('username',)), ('rating', ('name',)))))
   model = Beer
   
   def read(self, request, brewer_slug=None, beer_slug=None):
@@ -53,7 +53,7 @@ class URLHandler(BaseHandler):
 
 class UserHandler(BaseHandler):
   allowed_methods = ('GET',)
-  fields = ('username', ('userbeer_set', ('note', 'date_added', ('beer', ('url', 'name', ('brewer', ('name',)))), ('rating', ('name',)))))
+  fields = ('username', ('userrating_set', ('note', 'date_added', ('beer', ('url', 'name', ('brewer', ('name',)))), ('rating', ('name',)))))
   model = User
   
   def read(self, request, username=None):

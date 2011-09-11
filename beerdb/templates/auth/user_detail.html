@@ -8,7 +8,7 @@
   <h1>Ratings by {{ user }}</h1>
   
   <ul>
-    {% for rating in user.userbeer_set.all %}
+    {% for rating in user.userrating_set.all %}
       <li><a href="{% url 'beerdb_beer_detail' rating.beer.brewer.slug rating.beer.slug %}">{{ rating.beer.name }}</a> by <a href="{% url 'beerdb_brewer_detail' rating.beer.brewer.slug %}">{{ rating.beer.brewer.name }}</a> - {{ rating.rating.name }}</li>
     {% empty %}
       <li><em>No ratings</em></li>
