@@ -6,5 +6,32 @@
 
 {% block content %}
   <h1>{{ beer.name }}</h1>
-  <h2><a href="{% url 'beerdb_brewer_detail' beer.brewer.slug %}">{{ beer.brewer.name }}</a></h2>
+  <h2>by <a href="{% url 'beerdb_brewer_detail' beer.brewer.slug %}">{{ beer.brewer.name }}</a></h2>
+  
+  <h3>Ratings</h3>
+  <ul>
+    {% for userbeer in beer.userbeer_set.all %}
+      {% ifchanged userbeer.rating %}
+        {% if forloop.counter > 1 %}</ul></li>{% endif %}
+        <li>{{ userbeer.rating }}<ul>
+      {% endifchanged %}
+      
+      {# Print username #}
+      <li>{{ userbeer.user }}</li>
+      
+      {# Close list on last iteration #}
+      {% if forloop.last %}</ul></li>{% endif %}
+    {% empty %}
+      <li><em>No ratings available</em></li>
+    {% endfor %}
+  </ul>
+  
+  <h3>Links</h3>
+  <ul>
+    {% for url in beer.url.all %}
+      <li><a href="{{ url }}" rel="nofollow">{{ url.site.name }}</a></li>
+    {% empty %}
+      <li><em>No links available</em></li>
+    {% endfor %}
+  </ul>
 {% endblock %}
