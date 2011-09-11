@@ -17,7 +17,7 @@
       {% endifchanged %}
       
       {# Print username #}
-      <li>{{ userbeer.user }}</li>
+      <li><a href="{% url 'beerdb_user_detail' userbeer.user.username %}">{{ userbeer.user }}</a></li>
       
       {# Close list on last iteration #}
       {% if forloop.last %}</ul></li>{% endif %}
