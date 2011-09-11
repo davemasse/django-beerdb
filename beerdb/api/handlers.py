@@ -14,16 +14,13 @@ class BeerHandler(BaseHandler):
   def read(self, request, brewer_slug=None, beer_slug=None):
     if brewer_slug and beer_slug:
       try:
-        return Beer.objects.get(brewer__slug=brewer_slug, slug=beer_slug)
+        data = Beer.objects.get(brewer__slug=brewer_slug, slug=beer_slug)
       except Beer.DoesNotExist:
-        return Beer.objects.none()
+        data = Beer.objects.none()
     else:
-      beers = Beer.objects.all()[:10]
-      
-      for beer in beers:
-        beer.ratings = beer.userbeer_set.all()
-        beer.name = 'test'
-      return beers
+      data = Beer.objects.all()[:10]
+    
+    return data
 
 class BrewerHandler(BaseHandler):
   allowed_methods = ('GET',)
@@ -33,12 +30,14 @@ class BrewerHandler(BaseHandler):
   def read(self, request, brewer_slug=None):
     if brewer_slug:
       try:
-        return Brewer.objects.get(slug=brewer_slug)
+        data = Brewer.objects.get(slug=brewer_slug)
       except Brewer.DoesNotExist:
-        return Brewer.objects.none()
+        data = Brewer.objects.none()
     else:
       self.fields = ('name')
-      return Brewer.objects.all()[:10]
+      data = Brewer.objects.all()[:10]
+    
+    return data
   
   @classmethod
   def beer(self, object):
