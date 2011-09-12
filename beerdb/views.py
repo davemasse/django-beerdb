@@ -67,22 +67,22 @@ def beer_rate(request, brewer_slug, beer_slug):
     user_rating = UserRating(user=request.user, beer=beer)
   
   if request.method == 'POST':
-    user_beer_form = UserRatingForm(request.POST, instance=user_rating)
+    user_rating_form = UserRatingForm(request.POST, instance=user_rating)
     
-    if user_beer_form.is_valid():
-      user_beer_form.cleaned_data['beer'] = beer
-      user_beer_form.cleaned_data['user'] = request.user
+    if user_rating_form.is_valid():
+      user_rating_form.cleaned_data['beer'] = beer
+      user_rating_form.cleaned_data['user'] = request.user
       
-      user_rating = user_beer_form.save()
+      user_rating = user_rating_form.save()
       
       messages.success(request, _('Your rating was successfully saved.'))
       
       return HttpResponseRedirect(reverse('beerdb_beer_detail', args=[beer.brewer.slug, beer.slug]))
   else:
-    user_beer_form = UserRatingForm(instance=user_rating)
+    user_rating_form = UserRatingForm(instance=user_rating)
   
   return render_to_response('beerdb/beer_rate.html',
     {
       'beer': beer,
-      'user_beer_form': user_beer_form,
+      'user_rating_form': user_rating_form,
     }, context_instance=RequestContext(request))

@@ -9,11 +9,13 @@
   <h2>by <a href="{% url 'beerdb_brewer_detail' beer.brewer.slug %}">{{ beer.brewer.name }}</a></h2>
   
   <form action="" method="post">
-    {% for field in user_beer_form.visible_fields %}
+    {{ user_rating_form.non_field_errors }}
+    
+    {% for field in user_rating_form.visible_fields %}
       {% include 'beerdb/_form_field.html' %}
     {% endfor %}
     
-    {% for field in user_beer_form.hidden_fields %}
+    {% for field in user_rating_form.hidden_fields %}
       {{ field }}
     {% endfor %}
     

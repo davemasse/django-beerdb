@@ -8,15 +8,28 @@
   <h1>{{ beer.name }}</h1>
   <h2>by <a href="{% url 'beerdb_brewer_detail' beer.brewer.slug %}">{{ beer.brewer.name }}</a></h2>
   
+  {# Print this user's rating/review #}
   {% if user_rating %}
-    <h3>Your Rating</h3>
-    <p>{{ user_rating.rating }}</p>
+    <h3>Your Review</h3>
+    {# Rating value #}
+    {% if user_rating.rating %}
+      <p>{{ user_rating.rating }}</p>
+    {% else %}
+      <p><em>No rating</em></p>
+    {% endif %}
+    
+    {# Rating note #}
+    {% if user_rating.note %}
+      <p>{{ user_rating.note }}</p>
+    {% endif %}
   {% endif %}
   
+  {# Link to create or update rating #}
   <p><a href="{% url 'beerdb_beer_rate' beer.brewer.slug beer.slug %}">{% if user_rating %}Update your rating{% else %}Rate this beer{% endif %}</a></p>
   
-  <h3>Ratings</h3>
+  <h3>Other User Ratings</h3>
   <ul>
+    {# Iterate through other user's ratings of this beer #}
     {% for user_rating in other_user_ratings %}
       {% ifchanged user_rating.rating %}
         {% if forloop.counter > 1 %}</ul></li>{% endif %}
