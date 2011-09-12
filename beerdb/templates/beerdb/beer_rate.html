@@ -9,7 +9,13 @@
   <h2>by <a href="{% url 'beerdb_brewer_detail' beer.brewer.slug %}">{{ beer.brewer.name }}</a></h2>
   
   <form action="" method="post">
-    {{ user_beer_form.as_p }}
+    {% for field in user_beer_form.visible_fields %}
+      {% include 'beerdb/_form_field.html' %}
+    {% endfor %}
+    
+    {% for field in user_beer_form.hidden_fields %}
+      {{ field }}
+    {% endfor %}
     
     <button type="submit">Rate</button>
   </form>
