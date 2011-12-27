@@ -3,8 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, DetailView, FormView, ListView
 
@@ -81,8 +80,8 @@ def beer_rate(request, brewer_slug, beer_slug):
   else:
     user_rating_form = UserRatingForm(instance=user_rating)
   
-  return render_to_response('beerdb/beer_rate.html',
+  return render(request, 'beerdb/beer_rate.html',
     {
       'beer': beer,
       'user_rating_form': user_rating_form,
-    }, context_instance=RequestContext(request))
+    })
